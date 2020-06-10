@@ -1,6 +1,7 @@
 const ColorScheme = require('color-scheme');
 const { Client } = require("discord.js");
 const client = new Client();
+const hsl = require('hex-to-hsl');
 const config = require("./config.json");
 
 client.on("ready", () => {
