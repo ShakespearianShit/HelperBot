@@ -1,5 +1,4 @@
-console.log('hi');
-
+const ColorScheme = require('color-scheme');
 const { Client } = require("discord.js");
 const client = new Client();
 const config = require("./config.json");
@@ -24,6 +23,16 @@ client.on("message", async message => {
   if(command === "ping") {
     const m = await message.channel.send("Ping?");
     m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
+  }
+  
+  if (command === "analogic") {
+	  var hueColor = hsl(`#${req.color1}`)[0]
+	  var scheme = new ColorScheme;
+
+    scheme.from_hue(hueColor)
+	  scheme.scheme('analogic')
+	  scheme.add_complement(true)
+	  scheme.variation('hard')
   }
   
   if(command === "say") {

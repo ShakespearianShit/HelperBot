@@ -1,4 +1,5 @@
 dependencies:
+  color-scheme: 1.0.1
   discord.js: 12.2.0
 packages:
   /@discordjs/collection/0.1.5:
@@ -27,6 +28,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-x57Zf380y48robyXkLzDZkdLS3k=
+  /color-scheme/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-4x+ya6+z6g9DaTFSfVzTZc8TSjxHuDT40NB43N3XPUkQlF6uujhwH8aeMeq8HBgoQQog/vrYgJ16mt/eVTRXwQ==
   /combined-stream/1.0.8:
     dependencies:
       delayed-stream: 1.0.0
@@ -119,4 +124,5 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
+  color-scheme: ^1.0.1
   discord.js: ^12.2.0
