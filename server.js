@@ -1,5 +1,7 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
+console.log('hi');
+
+const { Client } = require("discord.js");
+const client = new Client();
 const config = require("./config.json");
 
 client.on("ready", () => {
@@ -31,4 +33,4 @@ client.on("message", async message => {
   }
 });
 
-client.login(config.token);
+client.login(process.env.TOKEN)
