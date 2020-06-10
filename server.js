@@ -26,7 +26,8 @@ client.on("message", async message => {
   }
   
   if (command === "analogic") {
-	  var hueColor = hsl(`#${req.color1}`)[0]
+    const firstColor = args.join(" ;")
+	  var hueColor = hsl(`#${firstColor}`)[0]
 	  var scheme = new ColorScheme;
 
     scheme.from_hue(hueColor)
