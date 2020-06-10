@@ -1,34 +1,34 @@
-// server.js
-// where your node app starts
+const Discord = require("discord.js");
+const client = new Discord.Client();
+const config = require("./config.json");
 
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-const express = require("express");
-const app = express();
-
-// our default array of dreams
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
-
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
-
-// https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
+client.on("ready", () => {
+  console.log("yes");
+  client.user.setActivity("Slaving off in Willy's b̶a̶s̶e̶m̶e̶n̶t̶ server");
 });
 
-// send the default array of dreams to the webpage
-app.get("/dreams", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.json(dreams);
+client.on("message", async message => {
+  if(message.author.bot) return;
+
+  if(message.channel.type == "text" && message.channel.name.toLowerCase() == "ideas" || message.channel.name.toLowerCase() == "programming-ideas" || message.channel.name.toLowerCase() == "design-ideas"){
+    message.react("✅");
+    message.react("❌");
+  }
+  
+  if(!message.content.startsWith(config.prefix)) return;
+  const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+  const command = args.shift().toLowerCase();
+  
+  if(command === "ping") {
+    const m = await message.channel.send("Ping?");
+    m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
+  }
+  
+  if(command === "say") {
+    const sayMessage = args.join(" ");
+    message.delete().catch(O_o=>{}); 
+    message.channel.send(sayMessage);
+  }
 });
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+client.login(config.token);
