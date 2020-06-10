@@ -1,6 +1,7 @@
 dependencies:
   color-scheme: 1.0.1
   discord.js: 12.2.0
+  hex-to-hsl: 1.0.2
 packages:
   /@discordjs/collection/0.1.5:
     dev: false
@@ -74,6 +75,17 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
+  /hex-to-hsl/1.0.2:
+    dependencies:
+      hex-to-rgb: 1.0.1
+      rgb-to-hsl: 0.0.2
+    dev: false
+    resolution:
+      integrity: sha1-1cWezgAXhEToIcj8WKQwr8CYMcI=
+  /hex-to-rgb/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-EAud8SazLydirfhIa+aMZe+O0qQ=
   /mime-db/1.44.0:
     dev: false
     engines:
@@ -103,6 +115,10 @@ packages:
       opusscript: ^0.0.6
     resolution:
       integrity: sha512-I+nkWY212lJ500jLe4tN9tWO7nRiBAVdMv76P9kffZjYhw20raMlW1HSSvS+MLXC9MmbNZCazMrAr+5jEEgTuw==
+  /rgb-to-hsl/0.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-Nvn8KGN2uQrMRX5pkAW0y0LTUOw=
   /setimmediate/1.0.5:
     dev: false
     resolution:
@@ -126,3 +142,4 @@ shrinkwrapVersion: 3
 specifiers:
   color-scheme: ^1.0.1
   discord.js: ^12.2.0
+  hex-to-hsl: ^1.0.2

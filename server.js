@@ -28,13 +28,26 @@ client.on("message", async message => {
   
   if (command === "analogic") {
     const firstColor = args.join(" ;")
-	  var hueColor = hsl(`#${firstColor}`)[0]
+    message.channel.send(firstColor)
+	  var hueColor = hsl(`${firstColor}`)[0]
 	  var scheme = new ColorScheme;
 
     scheme.from_hue(hueColor)
 	  scheme.scheme('analogic')
 	  scheme.add_complement(true)
 	  scheme.variation('hard')
+    message.channel.send(`\`\`\`${scheme.colors()}\`\`\``)
+  }
+  
+  if (command === "color") {
+    const type = args.join(" ")[1]
+    const firstColor = args.join(" ")[2]
+    var hueColor = hsl(firstColor)[0]
+    var scheme = new ColorScheme;
+    
+    scheme.from_hue(hueColor)
+    scheme.scheme(type)
+    scheme.add_complement(true)
   }
   
   if(command === "say") {
