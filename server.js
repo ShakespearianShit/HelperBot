@@ -39,15 +39,20 @@ client.on("message", async message => {
     message.channel.send(`\`\`\`${scheme.colors()}\`\`\``)
   }
   
-  if (command === "color") {
+  if (command === "colorScheme") {
+    console.log("hmmmmmmeys")
     const type = args.join(" ")[1]
+    console.log(type)
     const firstColor = args.join(" ")[2]
-    var hueColor = hsl(firstColor)[0]
+    console.log(`${firstColor}`)
+    var hueColor = hsl(`${firstColor}`)[0]
     var scheme = new ColorScheme;
     
     scheme.from_hue(hueColor)
     scheme.scheme(type)
     scheme.add_complement(true)
+    scheme.variation('hard')
+    message.channel.send(`\`\`\`${scheme.colors()}\`\`\``)
   }
   
   if(command === "say") {
