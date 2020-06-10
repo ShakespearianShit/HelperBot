@@ -6,7 +6,7 @@ const config = require("./config.json");
 
 client.on("ready", () => {
   console.log("yes");
-  client.user.setActivity("Slaving off in Willy's b̶a̶s̶e̶m̶e̶n̶t̶ server");
+  client.user.setActivity("S̴̱̾ĺ̶ͅa̴͔̍v̶̦͛i̸̯͒n̸̜̏g̵̀͜ ̴̙͊o̶͉͒f̷̰̽f̸͍̑ ̵̦̂ḯ̷͕n̵̢̎ ̷̺͘W̶̮̅í̶̺l̸̙̎l̶̳̈y̶̞̏'̸͓̃s̴͙̄ ̸̡̅ḃ̴̤ȃ̷̯s̶͍͑e̷͔̓m̵̟̏e̶͇͝n̵͉̔t̵̛͜");
 });
 
 client.on("message", async message => {
