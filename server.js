@@ -3,6 +3,7 @@ const { Client } = require("discord.js");
 const client = new Client();
 const hsl = require('hex-to-hsl');
 const config = require("./config.json");
+const canvas = require("canvas");
 
 client.on("ready", () => {
   console.log("yes");
@@ -41,9 +42,9 @@ client.on("message", async message => {
   
   if (command === "colorscheme") {
     console.log("hmmmmmmeys")
-    const type = args.join(" ")[1]
+    const type = args[0]
     console.log(type)
-    const firstColor = args.join(" ")[2]
+    const firstColor = args[1]
     console.log(`${firstColor}`)
     var hueColor = hsl(`${firstColor}`)[0]
     var scheme = new ColorScheme;
