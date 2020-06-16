@@ -39,7 +39,7 @@ client.on("message", async message => {
     message.channel.send(`\`\`\`${scheme.colors()}\`\`\``)
   }
   
-  if (command === "colorScheme") {
+  if (command === "colorscheme") {
     console.log("hmmmmmmeys")
     const type = args.join(" ")[1]
     console.log(type)
