@@ -27,19 +27,6 @@ client.on("message", async message => {
     m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
   }
   
-  if (command === "analogic") {
-    const firstColor = args.join(" ;")
-    message.channel.send(firstColor)
-	  var hueColor = hsl(`${firstColor}`)[0]
-	  var scheme = new ColorScheme;
-
-    scheme.from_hue(hueColor)
-	  scheme.scheme('analogic')
-	  scheme.add_complement(true)
-	  scheme.variation('hard')
-    message.channel.send(`\`\`\`${scheme.colors()}\`\`\``)
-  }
-  
   if (command === "colorscheme") {
     console.log("hmmmmmmeys")
     const type = args[0]
