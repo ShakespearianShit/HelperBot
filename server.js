@@ -120,17 +120,14 @@ client.on("message", async message => {
         let memeUpvotes = content[0].data.children[0].data.ups;
         let memeDownvotes = content[0].data.children[0].data.downs;
         let memeNumComments = content[0].data.children[0].data.num_comments;
-        let embed = {
-          title: "Meme",
-          description: memeTitle,
-          color: 53380,
-          footer: {
-            text: `Upvotes: ${memeUpvotes}, downvotes: ${memeDownvotes}`,
-            icon_url: memeUrl
-          },
-          image: memeImage
-        };
-        message.channel.send({ embed });
+        let embed = new Discord.MessageEmbed()
+          .setAuthor("Meme")
+          .addField(memeTitle)
+          .setColor("RANDOM")
+          .setImage(memeImage)
+          .setfooter(`Upvotes ${memeUpvotes} Downvotes ${memeDownvotes}`)
+        
+        message.channel.send(embed);
       });
     })().catch(err => {
       console.err(err);
