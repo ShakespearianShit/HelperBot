@@ -86,6 +86,24 @@ client.on("message", async message => {
       )}ms`
     );
   }
+  
+  if (command === "rst") {
+    const args = message.content.split(" ").slice(1);
+    if (args < "WEREALLGAYDOWNHERE")
+      return message.channel.send("Wrong Password Try Again...");
+    let Bot = message.client;
+    message.channel.send("Restart has been initiated.\n**Restarting...**");
+    setTimeout(function() {
+      Bot.destroy();
+    }, 1000);
+    setTimeout(function() {
+      process.exit();
+    }, 2000);
+    setTimeout(function() {
+      Bot.login(process.env.TOKEN).catch(console.error);
+    }, 3000);
+    message.delete();
+  }
 
   if (command === "rate") {
     let ratus = message.mentions.members.first() || message.mentions.channels.first();
