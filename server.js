@@ -128,7 +128,7 @@ client.on("message", async message => {
             text: `Upvotes: ${memeUpvotes}, downvotes: ${memeDownvotes}`,
             icon_url: memeUrl
           },
-          thumbnail: memeImage
+          image: memeImage
         };
         message.channel.send({ embed });
       });
