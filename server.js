@@ -10,6 +10,10 @@ client.on("ready", () => {
   client.user.setActivity("S̴̱̾ĺ̶ͅa̴͔̍v̶̦͛i̸̯͒n̸̜̏g̵̀͜ ̴̙͊o̶͉͒f̷̰̽f̸͍̑ ̵̦̂ḯ̷͕n̵̢̎ ̷̺͘W̶̮̅í̶̺l̸̙̎l̶̳̈y̶̞̏'̸͓̃s̴͙̄ ̸̡̅ḃ̴̤ȃ̷̯s̶͍͑e̷͔̓m̵̟̏e̶͇͝n̵͉̔t̵̛͜");
 });
 
+client.on("messageDelete", message => {
+  
+})
+
 client.on("message", async message => {
   if(message.author.bot) return;
 
@@ -28,7 +32,7 @@ client.on("message", async message => {
   }
   
   if(command === "lmgtfy") {
-    await message.channel.send(`https://lmgtfy.com/?q=${message.content.split(" ")[1].replace(/ /g, "+")}iie=1`)
+    message.channel.send(`https://lmgtfy.com/?q=${message.content.split("lmgtfy ")[1].replace(/ /g, "+")}&iie=1`)
   }
   
   if (command === "colorscheme") {
@@ -45,6 +49,13 @@ client.on("message", async message => {
     scheme.add_complement(true)
     scheme.variation('hard')
     message.channel.send(`\`\`\`${scheme.colors()}\`\`\``)
+  }
+  
+  if(command === "snipe") {
+	  const fetchedLogs = await message.guild.fetchAuditLogs({
+		  type: 'MESSAGE_DELETE',
+	  });
+    message.channel.send(fetchedLogs)
   }
   
   if(command === "say") {
