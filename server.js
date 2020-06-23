@@ -113,7 +113,9 @@ client.on("message", async message => {
     message.delete()
     let Bot = message.client;
     Bot.destroy()
-    process.exit()
+    setTimeout(function() {
+      process.exit()
+    }, 43200000)
   }
 
   if (command === "rate") {
