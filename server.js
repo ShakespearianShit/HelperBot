@@ -1,7 +1,8 @@
 const ColorScheme = require("color-scheme");
-const { Client } = require("discord.js");
-const client = new Client();
+const Discord = require("discord.js");
+const client = new Discord.Client();
 const fs = require("fs");
+const got = require('got');
 const hsl = require("hex-to-hsl");
 const config = require("./config.json");
 const canvas = require("canvas");
@@ -36,7 +37,46 @@ client.on("message", async message => {
     .trim()
     .split(/ +/g);
   const command = args.shift().toLowerCase();
+  if (command === "remind") {
+    const ms = require("ms");
+    const args = message.content.split(" ").slice(1);
 
+    if (args.includes("@ everyone")) return message.channel.send(" **Error**");
+
+    if (args.includes("@ here")) return message.channel.send(" **Error** ");
+
+    if (!args[0]) {
+      return message.channel.send(
+        "Please supply a time and message EX:``&remind <TIME> <MESSAGE>``"
+      );
+    }
+
+    if (args[0] <= 0) {
+      return message.channel.send(
+        "Please supply a time and message EX:``&remind <TIME> <MESSAGE>``"
+      );
+    }
+
+    let Timer = args[0];
+
+    message.channel.send(
+      "**Reminder Has Been Set For: **``" + ms(ms(Timer)) + "``"
+    );
+
+    setTimeout(function() {
+      const embed = new Discord.RichEmbed()
+        .setAuthor("Time Is Up", message.author.displayAvatarURL)
+        .setColor("RANDOM")
+        .addField("User: ", message.author)
+        .addField("Reminder From: ", ms(ms(Timer)))
+        .addField("Your Message: ", args.splice(1).join(" "))
+        .setTimestamp();
+      message.channel
+        .send("**" + message.author + "**" + " **Your Reminder..**")
+        .catch();
+      message.channel.send(embed);
+    }, ms(Timer));
+  }
   if (command === "ping") {
     const m = await message.channel.send("Ping?");
     m.edit(
@@ -53,6 +93,27 @@ client.on("message", async message => {
         .split("lmgtfy ")[1]
         .replace(/ /g, "+")}&iie=1`
     );
+  }
+  if (command === "meme") {
+    const embed = new Discord.RichEmbed();
+    got("https://www.reddit.com/r/dankmemes/random/.json").then(response => {
+      let content = JSON.parse(response.body);
+      let permalink = content[0].data.children[0].data.permalink;
+      let memeUrl = `https://reddit.com${permalink}`;
+      let memeImage = content[0].data.children[0].data.url;
+      let memeTitle = content[0].data.children[0].data.title;
+      let memeUpvotes = content[0].data.children[0].data.ups;
+      let memeDownvotes = content[0].data.children[0].data.downs;
+      let memeNumComments = content[0].data.children[0].data.num_comments;
+      embed.addField(`${memeTitle}`, `[View thread](${memeUrl})`);
+      embed.setImage(memeImage);
+      embed.setFooter(
+        `👍 ${memeUpvotes} 👎 ${memeDownvotes} 💬 ${memeNumComments}`
+      );
+      let interval = setInterval(function() {
+        message.channel.send(embed);
+      }, 1 * 10000);
+    });
   }
 
   if (command === "colorscheme") {

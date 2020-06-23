@@ -12,9 +12,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.2.0",
+    "canvas": "^2.6.1",
     "color-scheme": "^1.0.1",
+    "discord.js": "^12.2.0",
     "hex-to-hsl": "^1.0.2",
-    "canvas": "^2.6.1"
+    "ms": "^2.1.2",
+    "got": "^11.3.0"
   }
 }
