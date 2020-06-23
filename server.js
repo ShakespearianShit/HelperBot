@@ -1,6 +1,7 @@
 const ColorScheme = require('color-scheme');
 const { Client } = require("discord.js");
 const client = new Client();
+const fs = require("fs");
 const hsl = require('hex-to-hsl');
 const config = require("./config.json");
 const canvas = require("canvas");
@@ -11,7 +12,7 @@ client.on("ready", () => {
 });
 
 client.on("messageDelete", message => {
-  
+  fs.writeFile("./log.txt", message.cleanContent, function(err){if(err)console.err(err)})
 })
 
 client.on("message", async message => {
