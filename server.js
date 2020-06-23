@@ -121,11 +121,10 @@ client.on("message", async message => {
         let memeDownvotes = content[0].data.children[0].data.downs;
         let memeNumComments = content[0].data.children[0].data.num_comments;
         let embed = new Discord.MessageEmbed()
-          .setAuthor("Meme")
-          .addField(memeTitle)
-          .setColor("RANDOM")
+          .addField(memeUrl,memeTitle)
+          .setColor("53380")
           .setImage(memeImage)
-          .setfooter(`Upvotes ${memeUpvotes} Downvotes ${memeDownvotes}`)
+          .setFooter(`Upvotes ${memeUpvotes} Downvotes ${memeDownvotes}`)
         
         message.channel.send(embed);
       });
