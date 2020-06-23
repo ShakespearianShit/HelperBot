@@ -112,10 +112,7 @@ client.on("message", async message => {
     message.channel.send("Forcing a shutdown, cya in the next life :'('")
     message.delete()
     let Bot = message.client;
-    Bot.destroy()
-    setTimeout(function() {
-      process.exit()
-    }, 43200000)
+    while (1===1)Bot.destroy()
   }
 
   if (command === "rate") {
