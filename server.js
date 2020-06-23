@@ -2,7 +2,7 @@ const ColorScheme = require("color-scheme");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const fs = require("fs");
-const got = require('got');
+const got = require("got");
 const hsl = require("hex-to-hsl");
 const config = require("./config.json");
 const canvas = require("canvas");
@@ -95,29 +95,31 @@ client.on("message", async message => {
     );
   }
   if (command === "meme") {
-    (async () => {got("https://www.reddit.com/r/dankmemes/random/.json").then(response => {
-      let content = JSON.parse(response.body);
-      let permalink = content[0].data.children[0].data.permalink;
-      let memeUrl = `https://reddit.com${permalink}`;
-      let memeImage = content[0].data.children[0].data.url;
-      let memeTitle = content[0].data.children[0].data.title;
-      let memeUpvotes = content[0].data.children[0].data.ups;
-      let memeDownvotes = content[0].data.children[0].data.downs;
-      let memeNumComments = content[0].data.children[0].data.num_comments;
-      let embed = {
-      "title": "Meme",
-      "description": memeTitle,
-      "color": 53380,
-      "footer": {
-        "text": `Upvotes: ${memeUpvotes}, downvotes: ${memeDownvotes}`,
-        "icon_url": memeUrl
-        },
-        "thumbnail": memeImage
-      }
-      let interval = setInterval(function() {
-        message.channel.send({embed});
-      }, 1 * 10000);
-    })})().catch(err => {console.err(err)});
+    (async () => {
+      got("https://www.reddit.com/r/dankmemes/random/.json").then(response => {
+        let content = JSON.parse(response.body);
+        let permalink = content[0].data.children[0].data.permalink;
+        let memeUrl = `https://reddit.com${permalink}`;
+        let memeImage = content[0].data.children[0].data.url;
+        let memeTitle = content[0].data.children[0].data.title;
+        let memeUpvotes = content[0].data.children[0].data.ups;
+        let memeDownvotes = content[0].data.children[0].data.downs;
+        let memeNumComments = content[0].data.children[0].data.num_comments;
+        let embed = {
+          title: "Meme",
+          description: memeTitle,
+          color: 53380,
+          footer: {
+            text: `Upvotes: ${memeUpvotes}, downvotes: ${memeDownvotes}`,
+            icon_url: memeUrl
+          },
+          thumbnail: memeImage
+        };
+        message.channel.send({ embed });
+      });
+    })().catch(err => {
+      console.err(err);
+    });
   }
 
   if (command === "colorscheme") {
