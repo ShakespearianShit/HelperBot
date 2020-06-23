@@ -27,6 +27,10 @@ client.on("message", async message => {
     m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
   }
   
+  if(command === "lmgtfy") {
+    await message.channel.send(`https://lmgtfy.com/?q=${message.content.split(" ")[1].replace(/ /g, "+")}iie=1`)
+  }
+  
   if (command === "colorscheme") {
     console.log("hmmmmmmeys")
     const type = args[0]
