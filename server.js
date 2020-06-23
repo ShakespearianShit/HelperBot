@@ -31,22 +31,6 @@ client.on("message", async message => {
     message.react("✅");
     message.react("❌");
   }
-  
-  if (command === "rate") {
-    let ratus = message.mentions.members.first();
-    if (!ratus) return message.channel.send("Tag someone to rate them!");
-
-    let rates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-
-    let rate = Math.floor(Math.random() * rates.length);
-
-      let embed = new Discord.MessageEmbed()
-      .setColor("53380")
-      .addField("User: ",ratus)
-      .addField("Rating", "``"+rate+"``/10")
-      message.channel.send(embed)
-
-}
 
   if (!message.content.startsWith(config.prefix)) return;
   const args = message.content
@@ -101,6 +85,21 @@ client.on("message", async message => {
         client.ws.ping
       )}ms`
     );
+  }
+
+  if (command === "rate") {
+    let ratus = message.mentions.members.first();
+    if (!ratus) return message.channel.send("Tag someone to rate them!");
+
+    let rates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+    let rate = Math.floor(Math.random() * rates.length);
+
+    let embed = new Discord.MessageEmbed()
+      .setColor("53380")
+      .addField("User: ", ratus)
+      .addField("Rating", "" + rate + "/10");
+    message.channel.send(embed);
   }
 
   if (command === "lmgtfy") {
