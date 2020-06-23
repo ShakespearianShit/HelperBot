@@ -6,6 +6,7 @@ const got = require("got");
 const hsl = require("hex-to-hsl");
 const config = require("./config.json");
 const canvas = require("canvas");
+const ms = require("ms");
 
 client.on("ready", () => {
   console.log("yes");
@@ -30,6 +31,22 @@ client.on("message", async message => {
     message.react("✅");
     message.react("❌");
   }
+  
+  if (command === "rate") {
+    let ratus = message.mentions.members.first();
+    if (!ratus) return message.channel.send("Tag someone to rate them!");
+
+    let rates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+    let rate = Math.floor(Math.random() * rates.length);
+
+      let embed = new Discord.MessageEmbed()
+      .setColor("53380")
+      .addField("User: ",ratus)
+      .addField("Rating", "``"+rate+"``/10")
+      message.channel.send(embed)
+
+}
 
   if (!message.content.startsWith(config.prefix)) return;
   const args = message.content
@@ -38,22 +55,21 @@ client.on("message", async message => {
     .split(/ +/g);
   const command = args.shift().toLowerCase();
   if (command === "remind") {
-    const ms = require("ms");
     const args = message.content.split(" ").slice(1);
 
-    if (args.includes("@ everyone")) return message.channel.send(" **Error**");
+    if (args.includes("@everyone")) return message.channel.send(" **Error**");
 
-    if (args.includes("@ here")) return message.channel.send(" **Error** ");
+    if (args.includes("@here")) return message.channel.send(" **Error** ");
 
     if (!args[0]) {
       return message.channel.send(
-        "Please supply a time and message EX:``&remind <TIME> <MESSAGE>``"
+        "Please supply a time and message EX:``h!remind <TIME> <MESSAGE>``"
       );
     }
 
     if (args[0] <= 0) {
       return message.channel.send(
-        "Please supply a time and message EX:``&remind <TIME> <MESSAGE>``"
+        "Please supply a time and message EX:``h!remind <TIME> <MESSAGE>``"
       );
     }
 
@@ -64,15 +80,15 @@ client.on("message", async message => {
     );
 
     setTimeout(function() {
-      const embed = new Discord.RichEmbed()
+      const embed = new Discord.MessageEmbed()
         .setAuthor("Time Is Up", message.author.displayAvatarURL)
-        .setColor("RANDOM")
+        .setColor("53380")
         .addField("User: ", message.author)
         .addField("Reminder From: ", ms(ms(Timer)))
         .addField("Your Message: ", args.splice(1).join(" "))
         .setTimestamp();
       message.channel
-        .send("**" + message.author + "**" + " **Your Reminder..**")
+        .send("<@" + message.author + ">" + " **Your Reminder**...")
         .catch();
       message.channel.send(embed);
     }, ms(Timer));
