@@ -90,7 +90,7 @@ client.on("message", async message => {
   if (command === "rst") {
     const args = message.content.split(" ").slice(1);
     if (args < "WEREALLGAYDOWNHERE")
-      return message.channel.send("Wrong Password Try Again...");
+      return message.channel.send("Wrong password, try again...");
     let Bot = message.client;
     message.channel.send("Restart has been initiated.\n**Restarting...**");
     setTimeout(function() {
@@ -103,6 +103,16 @@ client.on("message", async message => {
       Bot.login(process.env.TOKEN).catch(console.error);
     }, 3000);
     message.delete();
+  }
+  
+  if(command === "forceshutdown") {
+    const args = message.content.split(" ").slice(1);
+    if (args < "SOMEONEFUCKEDITUPAGAIN")
+      return message.channel.send("Wrong password, try again...");
+    message.channel.send("Forcing a shutdown, cya in the next life :'('")
+    message.delete()
+    let Bot = message.client;
+    Bot.destroy()
   }
 
   if (command === "rate") {
