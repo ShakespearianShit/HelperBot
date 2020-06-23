@@ -88,8 +88,8 @@ client.on("message", async message => {
   }
 
   if (command === "rate") {
-    let ratus = message.mentions.members.first();
-    if (!ratus) return message.channel.send("Tag someone to rate them!");
+    let ratus = message.mentions.members.first() || message.mentions.channels.first();
+    if (!ratus) return message.channel.send("Mention someone or a channel to rate them!");
 
     let rates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
@@ -97,7 +97,7 @@ client.on("message", async message => {
 
     let embed = new Discord.MessageEmbed()
       .setColor("53380")
-      .addField("User: ", ratus)
+      .addField("User/channel: ", ratus)
       .addField("Rating", "" + rate + "/10");
     message.channel.send(embed);
   }
