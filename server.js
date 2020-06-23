@@ -95,8 +95,7 @@ client.on("message", async message => {
     );
   }
   if (command === "meme") {
-    const embed = new Discord.RichEmbed();
-    got("https://www.reddit.com/r/dankmemes/random/.json").then(response => {
+    (async () => {got("https://www.reddit.com/r/dankmemes/random/.json").then(response => {
       let content = JSON.parse(response.body);
       let permalink = content[0].data.children[0].data.permalink;
       let memeUrl = `https://reddit.com${permalink}`;
@@ -105,15 +104,20 @@ client.on("message", async message => {
       let memeUpvotes = content[0].data.children[0].data.ups;
       let memeDownvotes = content[0].data.children[0].data.downs;
       let memeNumComments = content[0].data.children[0].data.num_comments;
-      embed.addField(`${memeTitle}`, `[View thread](${memeUrl})`);
-      embed.setImage(memeImage);
-      embed.setFooter(
-        `👍 ${memeUpvotes} 👎 ${memeDownvotes} 💬 ${memeNumComments}`
-      );
+      let embed = {
+      "title": "Meme",
+      "description": memeTitle,
+      "color": 53380,
+      "footer": {
+        "text": `Upvotes: ${memeUpvotes}, downvotes: ${memeDownvotes}`,
+        "icon_url": memeUrl
+        },
+        "thumbnail": memeImage
+      }
       let interval = setInterval(function() {
-        message.channel.send(embed);
+        message.channel.send({embed});
       }, 1 * 10000);
-    });
+    })})().catch(err => {console.err(err)});
   }
 
   if (command === "colorscheme") {
