@@ -91,6 +91,7 @@ client.on("message", async message => {
     let poll = message.content.replace("h!poll ", "")
     message.channel.send(poll).then(msg => {
       msg.react("👍");
+      msg.react("➖");
       msg.react("👎");
     })
   }
