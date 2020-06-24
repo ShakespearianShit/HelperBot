@@ -123,12 +123,20 @@ client.on("message", async message => {
     let Bot = message.client;
     while (1===1)Bot.destroy()
   }
-
+  
+  if (command === "choose") {
+    const args = message.content.split(" ")
+    if (args.length < 2) return message.channel.send("Please send more than 2 arguments")
+    let choices = message.content.replace("h!choose ", "").replace("or ", "").split(" ")
+    let choce = Math.floor(Math.random() * choices.length);
+    message.channel.send(`${choices[choce]}, I choose you!`)
+  }
+ 
   if (command === "rate") {
     let ratus = message.mentions.members.first() || message.mentions.channels.first();
     if (!ratus) return message.channel.send("Mention someone or a channel to rate them!");
 
-    let rates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    let rates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
 
     let rate = Math.floor(Math.random() * rates.length);
 
