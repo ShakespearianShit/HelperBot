@@ -86,6 +86,14 @@ client.on("message", async message => {
       )}ms`
     );
   }
+
+  if (command === "poll") {
+    let poll = message.content.replace("h!poll ", "")
+    message.channel.send(poll).then(msg => {
+      msg.react("👍");
+      msg.react("👎");
+    })
+  }
   
   if (command === "rst") {
     const args = message.content.split(" ").slice(1);
