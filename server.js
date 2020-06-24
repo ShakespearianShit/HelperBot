@@ -127,7 +127,7 @@ client.on("message", async message => {
   if (command === "choose") {
     const args = message.content.split(" ")
     if (args.length < 2) return message.channel.send("Please send more than 2 arguments")
-    let choices = message.content.replace("h!choose ", "").replace("or ", "").split(" ")
+    let choices = message.content.replace("h!choose ", "").replace(/or /g, "").replace(/of /g, "").split(" ")
     let choce = Math.floor(Math.random() * choices.length);
     message.channel.send(`${choices[choce]}, I choose you!`)
   }
