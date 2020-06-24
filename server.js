@@ -7,6 +7,7 @@ const hsl = require("hex-to-hsl");
 const config = require("./config.json");
 const canvas = require("canvas");
 const ms = require("ms");
+var realTime;
 
 client.on("ready", () => {
   console.log("yes");
@@ -88,26 +89,152 @@ client.on("message", async message => {
   }
 
   if (command === "l.poll") {
-    const embed = new Discord.MessageEmbed()
-      .setAuthor(`Poll by ${message.author}`)
-      .setColor("53380")
-      .addField(`Poll topic: ${poll}`)
-      .addField(`Limit: ${limit}`)
+    var argText = args.join(" ").split("|");
+
+    const emojiArray = [
+      "🇦",
+      "🇧",
+      "🇨",
+      "🇩",
+      "🇪",
+      "🇫",
+      "🇬",
+      "🇭",
+      "🇮",
+      "🇯",
+      "🇰",
+      "🇱",
+      "🇲",
+      "🇳",
+      "🇴",
+      "🇵",
+      "🇶",
+      "🇷",
+      "🇸",
+      "🇹",
+      "🇺",
+      "🇻",
+      "🇼",
+      "🇽",
+      "🇾",
+      "🇿"
+    ];
+
+    const com = args.shift().toLowerCase();
+    if (argText[0] == "help") {
+      message.channel.send(
+        "```Format:\n!poll title of poll|time(optional)|time in minutes(optional)|option 1|option 2 | etc... \n" +
+          "Example:\n!poll Yes or no?|time|3|Yes, of course|no \n" +
+          " or with default time of 360 min \n!poll Yes or no?|Yes, of course|no ```"
+      );
+    }
+
+    var title = argText[0];
+    const alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase().split("");
+
+    //function to send the message instead of repeating it 2 times
+    function sendMSG(time) {
+      //variable for counting how many options are out
+      var outCount = [];
+      //combines votes and options
+      var combined = [];
+
+      //time in minutes for vote time
+      realTime = ms(time)
+
+      //send message with time and the output gathered from down below
+      message.channel
+        .send(
+          "__**" +
+            title +
+            "**__ " +
+            "\n" +
+            out.join("") +
+            "Time left: " +
+            ms(time) +
+            " minutes"
+        )
+        //react and delete new messages
+        .then(newMessage => {
+          for (let k = 0; k < out.length; k++) {
+            setTimeout(() => {
+              newMessage.react(emojiArray[k]);
+              outCount[k] = 1;
+            }, 1000 * k);
+          }
+
+          //after vote time period, counts votes and displays them
+          setTimeout(() => {
+            //counts amount of emojis and adds them to the combined array
+            for (let index = 0; index < out.length; index++) {
+              outCount[index] =
+                newMessage.reactions.find(
+                  reaction => reaction.emoji.name === emojiArray[index]
+                ).count - 1;
+              combined[index] =
+                out[index].split("\n").join("") + ": " + outCount[index] + "\n";
+            }
+
+            //gets the maximum value in the array
+            let x = Math.max(...outCount);
+            console.log(x);
+
+            //checks which ones have the max value and adds styling to it
+            for (let s = 0; s < outCount.length; s++) {
+              if (outCount[s] == x) {
+                //combined[s] = emojiArray[s] + combined[s].split("A").join("")
+                combined[s] =
+                  "***" + combined[s].split("\n").join("") + "***" + "\n";
+              } else {
+                combined[s] =
+                  "~~" + combined[s].split("\n").join("") + "~~" + "\n";
+              }
+            }
+
+            //deletes message and sends the results after the vote time
+            newMessage.delete();
+            message.channel.send(
+              "__**The results of " + title + "**__ " + "\n" + combined.join("")
+            );
+          }, ms(time));
+        });
+    }
+
+    if (argText[1]) {
+      if (argText[1].trim() == "time") {
+        //output if time is selected
+        var out = [];
+        for (let i = 2; i < argText.slice(1).length; i++) {
+          out[i - 2] =
+            "__" + alphabet[i - 2] + ") " + "__" + argText[i + 1] + "\n";
+        }
+        sendMSG(argText[2].split('"'));
+      } else {
+        //output if no time is set
+        var out = [];
+        for (let i = 0; i < argText.slice(1).length; i++) {
+          out[i] = "__" + alphabet[i] + ") " + "__" + argText[i + 1] + "\n";
+        }
+        sendMSG(360);
+      }
+      message.delete();
+    }
   }
 
   if (command === "poll") {
-    let poll = message.content.replace("h!poll ", "")
+    let poll = message.content.replace("h!poll ", "");
     const embed = new Discord.MessageEmbed()
-      .setAuthor(`Poll by ${message.author.tag}`)
+      .setAuthor(`Poll by ${message.author}`)
       .setColor("53380")
-      .addField(`Poll topic:`, poll)
+      .addField(`Poll topic:`)
+      .addField(poll);
     message.channel.send(embed).then(msg => {
       msg.react("👍");
       msg.react("➖");
       msg.react("👎");
-    })
+    });
   }
-  
+
   if (command === "rst") {
     const args = message.content.split(" ").slice(1);
     if (args < "WEREALLGAYDOWNHERE")
@@ -125,28 +252,35 @@ client.on("message", async message => {
     }, 3000);
     message.delete();
   }
-  
-  if(command === "forceshutdown") {
+
+  if (command === "forceshutdown") {
     const args = message.content.split(" ").slice(1);
     if (args < "SOMEONEFUCKEDITUPAGAIN")
       return message.channel.send("Wrong password, try again...");
-    message.channel.send("Forcing a shutdown, cya in the next life :'('")
-    message.delete()
+    message.channel.send("Forcing a shutdown, cya in the next life :'('");
+    message.delete();
     let Bot = message.client;
-    while (1===1)Bot.destroy()
+    while (1 === 1) Bot.destroy();
   }
-  
+
   if (command === "choose") {
-    const args = message.content.split(" ")
-    if (args.length < 2) return message.channel.send("Please send more than 2 arguments")
-    let choices = message.content.replace("h!choose ", "").replace(/or /g, "").replace(/of /g, "").split(" ")
+    const args = message.content.split(" ");
+    if (args.length < 2)
+      return message.channel.send("Please send more than 2 arguments");
+    let choices = message.content
+      .replace("h!choose ", "")
+      .replace(/or /g, "")
+      .replace(/of /g, "")
+      .split(" ");
     let choce = Math.floor(Math.random() * choices.length);
-    message.channel.send(`${choices[choce]}, I choose you!`)
+    message.channel.send(`${choices[choce]}, I choose you!`);
   }
- 
+
   if (command === "rate") {
-    let ratus = message.mentions.members.first() || message.mentions.channels.first();
-    if (!ratus) return message.channel.send("Mention someone or a channel to rate them!");
+    let ratus =
+      message.mentions.members.first() || message.mentions.channels.first();
+    if (!ratus)
+      return message.channel.send("Mention someone or a channel to rate them!");
 
     let rates = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
 
@@ -178,11 +312,11 @@ client.on("message", async message => {
         let memeDownvotes = content[0].data.children[0].data.downs;
         let memeNumComments = content[0].data.children[0].data.num_comments;
         let embed = new Discord.MessageEmbed()
-          .addField(memeUrl,memeTitle)
+          .addField(memeUrl, memeTitle)
           .setColor("53380")
           .setImage(memeImage)
-          .setFooter(`Upvotes ${memeUpvotes} Downvotes ${memeDownvotes}`)
-        
+          .setFooter(`Upvotes ${memeUpvotes} Downvotes ${memeDownvotes}`);
+
         message.channel.send(embed);
       });
     })().catch(err => {
