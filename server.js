@@ -87,9 +87,22 @@ client.on("message", async message => {
     );
   }
 
+  if (command === "l.poll") {
+    const embed = new Discord.MessageEmbed()
+      .setAuthor(`Poll by ${message.author}`)
+      .setColor("53380")
+      .addField(`Poll topic: ${poll}`)
+      .addField(`Limit: ${limit}`)
+  }
+
   if (command === "poll") {
     let poll = message.content.replace("h!poll ", "")
-    message.channel.send(poll).then(msg => {
+    const embed = new Discord.MessageEmbed()
+      .setAuthor(`Poll by ${await client.fetchUser(message.author)}`)
+      .setColor("53380")
+      .addField(`Poll topic:`)
+      .addField(poll)
+    message.channel.send(embed).then(msg => {
       msg.react("👍");
       msg.react("➖");
       msg.react("👎");
