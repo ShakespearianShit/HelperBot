@@ -154,9 +154,10 @@ client.on("message", async message => {
           " minutes"
       );
       const embed = new Discord.MessageEmbed()
-        .setAuthor(`Poll by ${message.author}`)
+        .setAuthor(`Poll by ${message.author.tag}`)
         .setColor("53380")
         .addField(`Poll topic:`, title)
+        .addField(`Poll options:`, out.join(""))
         .addField("Poll time limit", `${realTime / (1000 * 60)} minutes`);
       message.channel
         .send(embed)
