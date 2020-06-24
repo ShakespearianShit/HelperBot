@@ -224,7 +224,6 @@ client.on("message", async message => {
         }
         sendMSG(360);
       }
-      message.delete();
     }
   }
 
