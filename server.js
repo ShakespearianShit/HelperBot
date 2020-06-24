@@ -98,10 +98,9 @@ client.on("message", async message => {
   if (command === "poll") {
     let poll = message.content.replace("h!poll ", "")
     const embed = new Discord.MessageEmbed()
-      .setAuthor(`Poll by ${await client.fetchUser(message.author)}`)
+      .setAuthor(`Poll by ${message.author.tag}`)
       .setColor("53380")
-      .addField(`Poll topic:`)
-      .addField(poll)
+      .addField(`Poll topic:`, poll)
     message.channel.send(embed).then(msg => {
       msg.react("👍");
       msg.react("➖");
