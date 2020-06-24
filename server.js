@@ -123,9 +123,9 @@ client.on("message", async message => {
     const com = args.shift().toLowerCase();
     if (argText[0] == "help") {
       message.channel.send(
-        "```Format:\n!poll title of poll|time(optional)|time in minutes(optional)|option 1|option 2 | etc... \n" +
-          "Example:\n!poll Yes or no?|time|3|Yes, of course|no \n" +
-          " or with default time of 360 min \n!poll Yes or no?|Yes, of course|no ```"
+        "```Format:\nh!poll title of poll|time(optional)|time in minutes(optional)|option 1|option 2 | etc... \n" +
+          "Example:\nh!poll Yes or no?|time|3|Yes, of course|no \n" +
+          " or with default time of 360 min \nh!poll Yes or no?|Yes, of course|no ```"
       );
     }
 
@@ -140,20 +140,26 @@ client.on("message", async message => {
       var combined = [];
 
       //time in minutes for vote time
-      realTime = ms(time)
+      realTime = time * 1000 * 60;
 
       //send message with time and the output gathered from down below
+      message.channel.send(
+        "__**" +
+          title +
+          "**__ " +
+          "\n" +
+          out.join("") +
+          "Time left: " +
+          realTime / (1000 * 60) +
+          " minutes"
+      );
+      const embed = new Discord.MessageEmbed()
+        .setAuthor(`Poll by ${message.author}`)
+        .setColor("53380")
+        .addField(`Poll topic:`, title)
+        .addField("Poll time limit", `${realTime / (1000 * 60)} minutes`);
       message.channel
-        .send(
-          "__**" +
-            title +
-            "**__ " +
-            "\n" +
-            out.join("") +
-            "Time left: " +
-            ms(time) +
-            " minutes"
-        )
+        .send(embed)
         //react and delete new messages
         .then(newMessage => {
           for (let k = 0; k < out.length; k++) {
@@ -196,7 +202,7 @@ client.on("message", async message => {
             message.channel.send(
               "__**The results of " + title + "**__ " + "\n" + combined.join("")
             );
-          }, ms(time));
+          }, realTime);
         });
     }
 
