@@ -1,4 +1,4 @@
-const ColorScheme = require("color-scheme");
+/*const ColorScheme = require("color-scheme");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const fs = require("fs");
@@ -361,3 +361,4 @@ client.on("message", async message => {
 });
 
 client.login(process.env.TOKEN);
+*/ tttt
