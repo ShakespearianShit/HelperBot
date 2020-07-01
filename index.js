@@ -413,4 +413,4 @@ request.get('https://dog.ceo/api/breeds/image/random', {
   }
 });
 
-client.login("NTY4NDg2MzkwODcwOTY2Mjk0.XvZPhw.BYS4-4_5dpL9WVpA4iqgwiEUEXY");
+client.login("");
